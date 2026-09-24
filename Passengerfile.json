@@ -1,3 +1,4 @@
 {
-  "startup_file": "app.js"
+  "app_type": "node",
+  "startup_file": "server.js"
 }

@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "dev": "vite",
+    "postinstall": "node scripts/remove-passenger-decoy.mjs",
     "test": "node --test tests/plans.test.mjs tests/content.test.mjs tests/countdown.test.mjs",
-    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "build": "vite build && node scripts/prepare-sites-build.mjs && node scripts/remove-passenger-decoy.mjs",
     "preview": "vite preview",
     "start": "node app.js",
     "test:sites": "node --test tests/sites-worker.test.mjs"

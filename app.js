@@ -58,7 +58,7 @@ if (passenger) {
   passenger.configure({ autoInstall: false });
 }
 
-const server = createServer((req, res) => {
+function handleRequest(req, res) {
   if (!["GET", "HEAD"].includes(req.method)) {
     res.writeHead(405, { Allow: "GET, HEAD" });
     res.end();
@@ -80,12 +80,19 @@ const server = createServer((req, res) => {
   }
 
   createReadStream(file.filePath).pipe(res);
-});
+}
+
+const server = createServer(handleRequest);
+
+function listenOnPort(target) {
+  target.listen(port, "0.0.0.0", () => {
+    console.log(`Serving dist/client on http://0.0.0.0:${port}`);
+  });
+}
 
 if (passenger) {
   server.listen("passenger");
+  listenOnPort(createServer(handleRequest));
 } else {
-  server.listen(port, "0.0.0.0", () => {
-    console.log(`Serving dist/client on http://0.0.0.0:${port}`);
-  });
+  listenOnPort(server);
 }
