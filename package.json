@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "app.js",
   "scripts": {
     "dev": "vite",
     "test": "node --test tests/plans.test.mjs tests/content.test.mjs tests/countdown.test.mjs",

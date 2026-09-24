@@ -52,6 +52,11 @@ function existingFile(pathname) {
 }
 
 const port = Number(process.env.PORT) || 3000;
+const passenger = globalThis.PhusionPassenger;
+
+if (passenger) {
+  passenger.configure({ autoInstall: false });
+}
 
 const server = createServer((req, res) => {
   if (!["GET", "HEAD"].includes(req.method)) {
@@ -77,6 +82,10 @@ const server = createServer((req, res) => {
   createReadStream(file.filePath).pipe(res);
 });
 
-server.listen(port, "0.0.0.0", () => {
-  console.log(`Serving dist/client on http://0.0.0.0:${port}`);
-});
+if (passenger) {
+  server.listen("passenger");
+} else {
+  server.listen(port, "0.0.0.0", () => {
+    console.log(`Serving dist/client on http://0.0.0.0:${port}`);
+  });
+}
